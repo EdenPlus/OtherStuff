@@ -1,0 +1,200 @@
+function initializeDocument() {
+  initializeLegend();
+  formatCells();
+  initializeCellContents();
+}
+
+function initializeCellContents() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  var initialValues = [
+     ["Current X:", "Current Y:", "Container X:", "Container Y:", "Inner Padding W:", "Inner Padding H:"],
+     ["10", "10", "10", "10", "10", "10"],
+     ["Above X:", "Above Y:", "Above W:", "Above H:", "Outer Padding W:", "Outer Padding H:"],
+     ["10", "10", "10", "10", "10", "10"],
+     ["Current W:", "Current H:", "Container W:", "Container H:", "Desired W:", "Desired H:"],
+     ["10", "10", "10", "10", "10", "10"],
+     ["", "", "", "", "", ""],
+     ["Calculate Height based on desired Width", "", "", "", "", ""],
+     ["=C12/C11", "Current", "Desired", "", "", ""],
+     ["W:", "=B7", "=F7", "", "", ""],
+     ["H:", "=C7", "=D11*B10", "", "", ""],
+     ["", "", "", "", "", ""],
+     ["Calculate Width based on desired Height", "", "", "", "", ""],
+     ["=C17/C16", "Current", "Desired", "", "", ""],
+     ["H:", "=C7", "=G7", "", "", ""],
+     ["W:", "=B7", "=D16*B15", "", "", ""],
+     ["", "", "", "", "", ""],
+     ["Calculate Dimensions based on Container Width", "", "", "", "", ""],
+     ["=C22/C21", "Current", "Container Size", "Desired", "", ""],
+     ["W:", "=B7", "=D7", "=(D21-(F3*2))", "", ""],
+     ["H:", "=C7", "=E22+(G3*2)", "=E21*B20", "", ""],
+     ["", "", "", "", "", ""],
+     ["Calculate Dimensions based on Container Height", "", "", "", "", ""],
+     ["=C27/C26", "Current", "Container Size", "Desired", "", ""],
+     ["H:", "=C7", "=E7", "=(D26-(G3*2))", "", ""],
+     ["W:", "=B7", "=E27+(F3*2)", "=E26*B25", "", ""],
+     ["", "", "", "", "", ""],
+     ["Calculate Position relative to objects", "", "", "", "", ""],
+     ["", "X/Y of Above", "W/H of Above", "Desired", "", ""],
+     ["X:", "=B5", "=D5", "=C31+D31+F5", "", ""],
+     ["Y:", "=C5", "=E5", "=C32+D32+G5", "", ""],
+     ["", "", "", "", "", ""],
+     ["Calculate Position inside of Container", "", "", "", "", ""],
+     ["", "X/Y of Container", "Desired", "", "", ""],
+     ["X:", "=D3", "=C36+F3", "", "", ""],
+     ["Y:", "=E3", "=C37+G3", "", "", ""]
+   ];
+  
+  var range = sheet.getRange("B2:G37");
+  range.setValues(initialValues).setHorizontalAlignment("center");
+}
+
+function initializeLegend() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  sheet.getRange("I1:J2").merge().setBackground("#000000").setValue("Breaking Space").setFontColor("#ffffff").setBorder(true, true, true, true, true, true);
+  
+  sheet.getRange("I3:J4").merge().setBackground("#666666").setValue("Unused Space").setBorder(true, true, true, true, true, true);
+  
+  sheet.getRange("I5:J6").merge().setBackground("#b7b7b7").setValue("Labels").setBorder(true, true, true, true, true, true);
+  
+  sheet.getRange("I7:J8").merge().setBackground("#cccccc").setValue("Non-Input Space").setBorder(true, true, true, true, true, true);
+  
+  sheet.getRange("I9:J10").merge().setBackground("#ff9900").setValue("User-Input").setBorder(true, true, true, true, true, true);
+  
+  sheet.getRange("I11:J12").merge().setBackground("#00ff00").setValue("Output").setBorder(true, true, true, true, true, true);
+  
+  sheet.getRange("I13:J14").merge().setValue("Color Legend").setHorizontalAlignment("center").setVerticalAlignment("middle").setBorder(true, true, true, true, true, true).setFontWeight("bold");
+  
+  sheet.getRange("I1:J12").setHorizontalAlignment("right").setVerticalAlignment("bottom").setFontWeight("bold");
+}
+
+function formatCells() {
+  formatBreakingCells();
+  formatUnusedCells();
+  formatLabelCells();
+  formatNonInputCells();
+  formatInputCells();
+  formatOutputCells();
+}
+
+function formatBreakingCells() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  var cell = sheet.getRange("I1:J2");
+  var cellBackground = cell.getBackground();
+  
+  sheet.getRange("A1:A38").setBackground(cellBackground);
+  sheet.getRange("B1:G1").setBackground(cellBackground);
+  sheet.getRange("H1:H38").setBackground(cellBackground);
+  sheet.getRange("B8:G8").setBackground(cellBackground);
+  sheet.getRange("B13:G13").setBackground(cellBackground);
+  sheet.getRange("B18:G18").setBackground(cellBackground);
+  sheet.getRange("B23:G23").setBackground(cellBackground);
+  sheet.getRange("B28:G28").setBackground(cellBackground);
+  sheet.getRange("B33:G33").setBackground(cellBackground);
+  sheet.getRange("B38:G38").setBackground(cellBackground);
+  sheet.getRange("B10").setBackground(cellBackground);
+  sheet.getRange("B15").setBackground(cellBackground);
+  sheet.getRange("B20").setBackground(cellBackground);
+  sheet.getRange("B25").setBackground(cellBackground);
+  sheet.getRange("B30").setBackground(cellBackground);
+  sheet.getRange("B35").setBackground(cellBackground);
+}
+
+function formatUnusedCells() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  var cell = sheet.getRange("I3:J4");
+  var cellBackground = cell.getBackground();
+  
+  sheet.getRange("E10:G12").setBackground(cellBackground);
+  sheet.getRange("E15:G17").setBackground(cellBackground);
+  sheet.getRange("F20:G22").setBackground(cellBackground);
+  sheet.getRange("E25:G27").setBackground(cellBackground);
+  sheet.getRange("F30:G32").setBackground(cellBackground);
+  sheet.getRange("E35:G37").setBackground(cellBackground);
+}
+
+function formatLabelCells() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  var cell = sheet.getRange("I5:J6");
+  var cellBackground = cell.getBackground();
+  
+  sheet.getRange("B2:G2").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B4:G4").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B6:G6").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B9:G9").setBackground(cellBackground).merge().setFontWeight("bold");
+  sheet.getRange("C10:D10").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B11:B12").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B14:G14").setBackground(cellBackground).merge().setFontWeight("bold");
+  sheet.getRange("C15:D15").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B16:B17").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B19:G19").setBackground(cellBackground).merge().setFontWeight("bold");
+  sheet.getRange("C20:E20").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B21:B22").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B24:G24").setBackground(cellBackground).merge().setFontWeight("bold");
+  sheet.getRange("C25:E25").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B26:B27").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B29:G29").setBackground(cellBackground).merge().setFontWeight("bold");
+  sheet.getRange("C30:E30").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B31:B32").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B34:G34").setBackground(cellBackground).merge().setFontWeight("bold");
+  sheet.getRange("C35:D35").setBackground(cellBackground).setFontWeight("bold");
+  sheet.getRange("B36:B37").setBackground(cellBackground).setFontWeight("bold");
+}
+
+function formatNonInputCells() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  var cell = sheet.getRange("I7:J8");
+  var cellBackground = cell.getBackground();
+  
+  sheet.getRange("C11:C12").setBackground(cellBackground);
+  sheet.getRange("D11").setBackground(cellBackground);
+  sheet.getRange("C16:C17").setBackground(cellBackground);
+  sheet.getRange("D16").setBackground(cellBackground);
+  sheet.getRange("C21:C22").setBackground(cellBackground);
+  sheet.getRange("D21").setBackground(cellBackground);
+  sheet.getRange("C26:C27").setBackground(cellBackground);
+  sheet.getRange("D26").setBackground(cellBackground);
+  sheet.getRange("C31:D32").setBackground(cellBackground);
+  sheet.getRange("C36:C37").setBackground(cellBackground);
+}
+
+function formatInputCells() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  var cell = sheet.getRange("I9:J10");
+  var cellBackground = cell.getBackground();
+  
+  sheet.getRange("B3:G3").setBackground(cellBackground).setValue(0).canEdit();
+  sheet.getRange("B5:G5").setBackground(cellBackground).setValue(0).canEdit();
+  sheet.getRange("B7:G7").setBackground(cellBackground).setValue(0).canEdit();
+}
+
+function formatOutputCells() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];
+  
+  var cell = sheet.getRange("I11:J12");
+  var cellBackground = cell.getBackground();
+  
+  sheet.getRange("D12").setBackground(cellBackground);
+  sheet.getRange("D17").setBackground(cellBackground);
+  sheet.getRange("D22").setBackground(cellBackground);
+  sheet.getRange("E21:E22").setBackground(cellBackground);
+  sheet.getRange("D27").setBackground(cellBackground);
+  sheet.getRange("E26:E27").setBackground(cellBackground);
+  sheet.getRange("E31:E32").setBackground(cellBackground);
+  sheet.getRange("D36:D37").setBackground(cellBackground);
+}
