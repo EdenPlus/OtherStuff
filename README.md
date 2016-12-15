@@ -5,6 +5,9 @@ This is a repository for stuff that I haven't sorted into it's own repository. A
 http://foothillertech.com/student/webdesign/2015/2nd/02_37/index.html I no longer have access to this site so, it may not stay up, eventually, I might add the file copies of these sites to my GitHub since they are mostly just school projects tied with me experimenting with stuff.
 
 # Categories based on language
+## Google Apps Script
+**Wix Dimension Calculator** - This is written in the Google Apps Script for Google Spreadsheets. I wrote it because, I didn't like frequently calculating dimensions of objects for the webpage due to it's lack of scaleing. This script basically formats a spreadsheet so that it meets the general needs of this calculator.
+
 ## Java
 Nothing uploaded
 
@@ -22,6 +25,3 @@ Nothing uploaded
 
 ## PHP
 Nothing uploaded
-
-## Google Apps Script
-**Wix Dimension Calculator** - This is written in the Google Apps Script for Google Spreadsheets. I wrote it because, I didn't like frequently calculating dimensions of objects for the webpage due to it's lack of scaleing. This script basically formats a spreadsheet so that it meets the general needs of this calculator.
